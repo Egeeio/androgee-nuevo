@@ -51,8 +51,8 @@ jobs:
       - run:
           name: Build Androgee image
           command: |
-            ./packer validate post-build/androgee.json
-            ./packer build post-build/androgee.json
+            ./packer validate docker/androgee.json
+            ./packer build docker/androgee.json
 workflows:
   version: 2
   build-deploy:
