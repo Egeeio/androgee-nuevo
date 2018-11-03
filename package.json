@@ -1,0 +1,24 @@
+{
+  "name": "androgee-nuevo",
+  "version": "1.0.0",
+  "description": "A bot for the Egee.io community",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Egeeio/androgee-nuevo.git"
+  },
+  "author": "Egee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Egeeio/androgee-nuevo/issues"
+  },
+  "homepage": "https://github.com/Egeeio/androgee-nuevo#readme",
+  "devDependencies": {
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  }
+}
