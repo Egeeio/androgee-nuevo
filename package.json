@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "A bot for the Egee.io community",
   "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Egeeio/androgee-nuevo.git"
@@ -16,9 +13,25 @@
     "url": "https://github.com/Egeeio/androgee-nuevo/issues"
   },
   "homepage": "https://github.com/Egeeio/androgee-nuevo#readme",
+  "scripts": {
+    "start": "npm run build && node dist/Main.js",
+    "build": "npm run build-ts && npm run lint-ts",
+    "rebuild": "npm run clean-npm && npm run clean-dist && npm run build",
+    "clean-npm": "rm -rf node_modules && npm install",
+    "clean-dist": "rm -rf dist/* && touch dist/.gitkeep",
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",
+    "build-ts": "node_modules/.bin/tsc --build tsconfig.json",
+    "lint-ts": "node_modules/.bin/tslint -c tslint.json -p tsconfig.json"
+  },
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "dockerode": "^2.5.6",
+    "typescript": "^3.0.1"
+  },
   "devDependencies": {
-    "eslint": "^5.8.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "@types/dockerode": "^2.5.5",
+    "@types/node": "^10.5.6",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0"
   }
 }
