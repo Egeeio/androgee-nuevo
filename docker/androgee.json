@@ -1,0 +1,31 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "node:10",
+      "commit": "true",
+      "changes": ["CMD [\"node\", \"/Main.js\"]"]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "androgee.tar.gz",
+      "destination": "/androgee.tar.gz"
+    },
+    {
+      "type": "shell",
+      "inline": ["tar -zxf androgee.tar.gz", "npm install --production"]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "egeeio/androgee",
+        "tag": "latest"
+      },
+      "docker-push"
+    ]
+  ]
+}

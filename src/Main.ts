@@ -13,9 +13,7 @@ function Main() {
         console.error(err);
       });
   } else {
-    console.warn(
-      "Discord will not be connected because no address was found in config file."
-    );
+    console.error("Unable to find Discord TOKEN.");
   }
   client.on("ready", () => {
     console.info("fck ya");

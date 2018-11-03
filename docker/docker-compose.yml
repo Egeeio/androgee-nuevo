@@ -1,0 +1,10 @@
+version: "2"
+services:
+  androgee:
+    image: egeeio/androgee:latest
+    restart: always
+    network_mode: "host"
+    build:
+      context: .
+      args:
+        token: $TOKEN
