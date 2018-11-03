@@ -25,7 +25,7 @@ jobs:
           name: Save Packer definition
           key: packer-{{epoch}}
           paths:
-            - ~/project/post-build/androgee.json
+            - ~/project/docker/androgee.json
       - save_cache:
           name: Save binaries for next job
           key: binaries-{{epoch}}
