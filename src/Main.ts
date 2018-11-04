@@ -1,4 +1,5 @@
-import { Client } from "discord.js";
+import { Client, TextChannel } from "discord.js";
+import { Listeners } from "./Listeners";
 
 function Main() {
   const token = process.env.TOKEN;
@@ -16,7 +17,8 @@ function Main() {
     console.error("Unable to find Discord TOKEN.");
   }
   client.on("ready", () => {
-    console.info("fck ya");
+    Listeners(client);
+    console.info("I'm in.");
   });
 }
 
