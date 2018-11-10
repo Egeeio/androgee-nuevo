@@ -1,25 +1,23 @@
-import { Client, TextChannel } from "discord.js";
+import { Client } from "discord.js";
 import { Listeners } from "./Listeners";
 
-function Main() {
+async function Main() {
   const token = process.env.TOKEN;
   const client = new Client();
   if (process.env.TOKEN !== "") {
-    client
+    await client
       .login(token)
       .then(() => {
-        console.info("Successfully logged into the Discord servers");
+        console.info("Successfully logged into Discord.");
       })
-      .catch(err => {
-        console.error(err);
+      .catch((err) => {
+        throw new Error(`Error logging in: ${err}`);
       });
+      console.info("Listening for events.");
+      Listeners(client);
   } else {
     console.error("Unable to find Discord TOKEN.");
   }
-  client.on("ready", () => {
-    Listeners(client);
-    console.info("I'm in.");
-  });
 }
 
 Main();
