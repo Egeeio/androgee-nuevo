@@ -1,4 +1,3 @@
-import { Message } from "discord.js";
 import Docker from "dockerode";
 
 export default async function ContainerHandlers(message: string) {
@@ -7,6 +6,7 @@ export default async function ContainerHandlers(message: string) {
   const gameServers = await engine.listContainers({ all: true });
   const containerName = message.split(" ")[1];
   const userCmd = message.split(" ")[0];
+  let container;
   switch (userCmd) {
     case "list":
       return (
@@ -15,10 +15,33 @@ export default async function ContainerHandlers(message: string) {
         "```"
       );
     case "restart":
-      const container = await GetContainer(containerName);
+      container = await GetContainer(containerName);
       if (container.id !== undefined) {
         await container.restart();
         return "Server Restarting...";
+      } else {
+        return "Server not found";
+      }
+    case "update":
+      container = await GetContainer(containerName);
+      if (container.id !== undefined) {
+        const dockerExec = await container.exec({
+          Cmd: ["update"],
+          AttachStdout: true,
+          AttachStderr: true
+        });
+        const update = await dockerExec.start({ Tty: true });
+        if (update.output.statusCode === 200) {
+          return "Server updating...";
+        } else {
+          return "Unable to update";
+        }
+      }
+    case "logs":
+      container = await GetContainer(containerName);
+      if (container.id !== undefined) {
+        const logs = await container.logs({ tail: 40, stdout: true });
+        return logs;
       } else {
         return "Server not found";
       }
@@ -29,14 +52,11 @@ export default async function ContainerHandlers(message: string) {
     const containers = new Map();
     gameServers.forEach(container => {
       const name = container.Names.pop();
-      containers.set(name.substr(1, name.length), container.Id);
+      if (name !== undefined)
+        containers.set(name.substr(1, name.length), container.Id);
     });
-    if (containerName !== "") {
-      const container = await engine.getContainer(
-        containers.get(containerName)
-      );
-      return container;
-    }
+    const container = await engine.getContainer(containers.get(containerName));
+    return container;
   }
   async function DockerList() {
     const containers = [];
