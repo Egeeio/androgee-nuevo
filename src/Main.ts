@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { Listeners } from "./Listeners";
+import Listeners from "./Listeners";
 
 async function Main() {
   const token = process.env.TOKEN;
@@ -10,11 +10,11 @@ async function Main() {
       .then(() => {
         console.info("Successfully logged into Discord.");
       })
-      .catch((err) => {
+      .catch(err => {
         throw new Error(`Error logging in: ${err}`);
       });
-      console.info("Listening for events.");
-      Listeners(client);
+    console.info("Listening for events.");
+    Listeners(client);
   } else {
     console.error("Unable to find Discord TOKEN.");
   }
