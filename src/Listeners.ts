@@ -1,6 +1,12 @@
 import { Client, TextChannel, Guild } from "discord.js";
+import MessageHandler from "./handlers/MessageHandlers";
 
-export function Listeners(client: Client) {
+export default function Listeners(client: Client) {
+  client.on("message", msg => {
+    if (msg.content.charAt(0) == "^") {
+      MessageHandler(msg);
+    }
+  });
   client.on("guildMemberAdd", member => {
     const msg = `** ${member.user.username} ** +  has joined the server! 👋`;
     SendChannelMessage(member.guild, "general", msg).catch(err => {
