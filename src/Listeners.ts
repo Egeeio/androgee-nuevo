@@ -3,18 +3,17 @@ import MessageHandler from "./handlers/MessageHandlers";
 
 export default function Listeners(client: Client) {
   client.on("message", msg => {
-    if (msg.content.charAt(0) == "^") {
-      MessageHandler(msg);
-    }
+    const cfg = require("./config.json");
+    if (msg.content.charAt(0) == cfg.prefix) MessageHandler(msg);
   });
   client.on("guildMemberAdd", member => {
-    const msg = `** ${member.user.username} ** +  has joined the server! 👋`;
+    const msg = `** ${member.user.username} ** has joined the server! 👋`;
     SendChannelMessage(member.guild, "general", msg).catch(err => {
       console.error(err);
     });
   });
   client.on("guildMemberRemove", member => {
-    const msg = `** ${member.user.username} ** +  has left the server! 👋`;
+    const msg = `** ${member.user.username} ** has left the server! 👋`;
     SendChannelMessage(member.guild, "debug", msg).catch(err => {
       console.error(err);
     });
