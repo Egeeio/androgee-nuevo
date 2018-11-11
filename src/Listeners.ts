@@ -5,7 +5,7 @@ import MessageHandler from "./handlers/MessageHandlers";
 export default function Listeners(client: Client) {
   client.on("message", msg => {
     const cfg = require("./config.json");
-    if (msg.content.charAt(0) == cfg.prefix) MessageHandler(msg);
+    if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
   });
   client.on("guildMemberAdd", member => {
     SendChannelMessage(

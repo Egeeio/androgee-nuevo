@@ -4,7 +4,7 @@ import ContainerList from "../commands/ContainerList";
 
 export default async function ContainerHandlers(message: string) {
   message = message.substr(11);
-  const engine = new Docker({ host: "192.168.1.130", port: 2376 });
+  const engine = new Docker({ host: process.env.HOST, port: 2376 });
   const containerName = message.split(" ")[1];
   const userCmd = message.split(" ")[0];
   let container;
