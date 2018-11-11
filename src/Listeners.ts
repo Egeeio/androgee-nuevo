@@ -1,13 +1,26 @@
 import { Client } from "discord.js";
+import WebRcon from "webrconjs";
+
 import SendChannelMessage from "./helpers/SendChannelMessage";
 import MessageHandler from "./handlers/MessageHandlers";
 
-export default function Listeners(client: Client) {
-  client.on("message", msg => {
+export default function Listeners(discordClient: Client) {
+  const rustConnection = new WebRcon(process.env.HOST, "28016");
+  rustConnection.connect(process.env.RUST_PASSWORD);
+
+  rustConnection.on("connect", function() {
+    console.log("CONNECTED TO RUST SERVER");
+  });
+
+  rustConnection.on("message", msg => {
+    console.log(msg);
+  });
+
+  discordClient.on("message", msg => {
     const cfg = require("./config.json");
     if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
   });
-  client.on("guildMemberAdd", member => {
+  discordClient.on("guildMemberAdd", member => {
     SendChannelMessage(
       member.guild,
       "general",
@@ -16,7 +29,7 @@ export default function Listeners(client: Client) {
       console.error(err);
     });
   });
-  client.on("guildMemberRemove", member => {
+  discordClient.on("guildMemberRemove", member => {
     SendChannelMessage(
       member.guild,
       "debug",
