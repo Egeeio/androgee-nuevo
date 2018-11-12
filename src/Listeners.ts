@@ -17,14 +17,13 @@ export default function Listeners(discordClient: Client) {
   });
 
   discordClient.on("message", msg => {
-    const cfg = require("./config.json");
     if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
   });
   discordClient.on("guildMemberAdd", member => {
     SendChannelMessage(
       member.guild,
       "general",
-      `** ${member.user.username} ** has joined the server! 👋`
+      `** ${member.nickname} ** has joined the server! 👋`
     ).catch(err => {
       console.error(err);
     });
