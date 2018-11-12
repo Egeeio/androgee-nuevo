@@ -4,7 +4,7 @@ import Listeners from "./Listeners";
 async function Main() {
   const token = process.env.TOKEN;
   const client = new Client();
-  if (process.env.TOKEN !== "") {
+  if (token !== "") {
     await client
       .login(token)
       .then(() => {

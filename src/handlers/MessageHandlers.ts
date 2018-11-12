@@ -1,4 +1,5 @@
-import { Message, GuildMember } from "discord.js";
+import { Message } from "discord.js";
+import CheckIfAdmin from "../helpers/CheckIfAdmin";
 import ContainerHandlers from "./ContainerHandlers";
 
 export default async function MessageHandler(message: Message) {
@@ -13,14 +14,5 @@ export default async function MessageHandler(message: Message) {
       if (isAdmin == true)
         message.channel.send(await ContainerHandlers(message.content));
       break;
-  }
-}
-
-async function CheckIfAdmin(user: GuildMember) {
-  const hasRole = await user.roles.find("name", "Demigods (Game-Admins)");
-  if (hasRole !== undefined) {
-    return true;
-  } else {
-    return false;
   }
 }

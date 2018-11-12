@@ -1,40 +1,41 @@
-import { Client, TextChannel, Guild } from "discord.js";
+import { Client } from "discord.js";
+import WebRcon from "webrconjs";
+
+import SendChannelMessage from "./helpers/SendChannelMessage";
 import MessageHandler from "./handlers/MessageHandlers";
 
-export default function Listeners(client: Client) {
-  client.on("message", msg => {
-    if (msg.content.charAt(0) == "^") {
-      MessageHandler(msg);
-    }
-  });
-  client.on("guildMemberAdd", member => {
-    const msg = `** ${member.user.username} ** +  has joined the server! 👋`;
-    SendChannelMessage(member.guild, "general", msg).catch(err => {
-      console.error(err);
-    });
-  });
-  client.on("guildMemberRemove", member => {
-    const msg = `** ${member.user.username} ** +  has left the server! 👋`;
-    SendChannelMessage(member.guild, "debug", msg).catch(err => {
-      console.error(err);
-    });
-  });
-}
+export default function Listeners(discordClient: Client) {
+  const rustConnection = new WebRcon(process.env.HOST, "28016");
+  rustConnection.connect(process.env.RUST_PASSWORD);
 
-function SendChannelMessage(
-  guild: Guild,
-  channelName: string,
-  message: string
-) {
-  const channel = guild.channels.find("name", channelName) as TextChannel;
-  return new Promise((resolve, reject) => {
-    channel
-      .send(message)
-      .then(() => {
-        resolve();
-      })
-      .catch(err => {
-        reject(`Error sending message to channel: ${err}`);
-      });
+  rustConnection.on("connect", function() {
+    console.log("CONNECTED TO RUST SERVER");
+  });
+
+  rustConnection.on("message", msg => {
+    console.log(msg);
+  });
+
+  discordClient.on("message", msg => {
+    const cfg = require("./config.json");
+    if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
+  });
+  discordClient.on("guildMemberAdd", member => {
+    SendChannelMessage(
+      member.guild,
+      "general",
+      `** ${member.user.username} ** has joined the server! 👋`
+    ).catch(err => {
+      console.error(err);
+    });
+  });
+  discordClient.on("guildMemberRemove", member => {
+    SendChannelMessage(
+      member.guild,
+      "debug",
+      `** ${member.user.username} ** has left the server! 👋`
+    ).catch(err => {
+      console.error(err);
+    });
   });
 }

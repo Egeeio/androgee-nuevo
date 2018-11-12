@@ -15,22 +15,21 @@
   "homepage": "https://github.com/Egeeio/androgee-nuevo#readme",
   "scripts": {
     "start": "npm run build && node dist/Main.js",
-    "build": "npm run build-ts",
+    "build": "node_modules/.bin/tsc --build tsconfig.json",
     "rebuild": "npm run clean-npm && npm run clean-dist && npm run build",
     "clean-npm": "rm -rf node_modules && npm install",
     "clean-dist": "rm -rf dist/* && touch dist/.gitkeep",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "build-ts": "node_modules/.bin/tsc --build tsconfig.json",
-    "lint-ts": "node_modules/.bin/tslint -c tslint.json -p tsconfig.json"
+    "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "dependencies": {
     "discord.js": "^11.3.2",
     "dockerode": "^2.5.6",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "webrconjs": "^1.0.0"
   },
   "devDependencies": {
     "@types/dockerode": "^2.5.5",
-    "@types/node": "^10.5.6",
+    "@types/node": "^10.12.5",
     "mocha": "^5.2.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0"
