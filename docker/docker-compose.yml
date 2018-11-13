@@ -6,6 +6,7 @@ services:
       - PREFIX=
       - HOST=
       - RUST_PASSWORD=
+      - RUST_PORT
     image: egeeio/androgee:latest
     restart: always
     network_mode: "host"
