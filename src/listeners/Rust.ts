@@ -1,11 +1,19 @@
-import WebRcon from "webrconjs";
+import RustAnnounce from "../helpers/RustAnnounce";
 
-export default function RustListeners(rustClient: WebRcon) {
+export default function RustListeners(rustClient, discordGuild) {
   rustClient.on("connect", function() {
     console.log("CONNECTED TO RUST SERVER");
   });
 
   rustClient.on("message", msg => {
-    console.log(msg);
+    RustAnnounce(rustClient, discordGuild, msg.message);
+  });
+
+  rustClient.on("error", function(err) {
+    console.log("ERROR:", err);
+  });
+
+  rustClient.on("disconnect", function() {
+    console.log("DISCONNECTED FROM RUST SERVER");
   });
 }
