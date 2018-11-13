@@ -1,6 +1,6 @@
 import RustAnnounce from "../helpers/RustAnnounce";
 
-export default function RustListeners(rustClient, discordGuild) {
+export default function RustListener(rustClient, discordGuild) {
   rustClient.on("connect", function() {
     console.log("CONNECTED TO RUST SERVER");
   });
