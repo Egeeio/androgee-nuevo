@@ -4,8 +4,10 @@ import Listeners from "./Listeners";
 async function Main() {
   const token = process.env.TOKEN;
   const client = new Client();
-  if (process.env.PREFIX === "")
-    throw new Error("ERROR: Double check your environment variables");
+  if (process.env.PREFIX === "") {
+    console.error("Exiting - Double check your environment variables.");
+    process.exit(1);
+  }
   if (token !== "") {
     await client
       .login(token)
