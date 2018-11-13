@@ -1,10 +1,12 @@
 version: "2"
 services:
   androgee:
+    environment:
+      - TOKEN=
+      - PREFIX=
+      - HOST=
+      - RUST_PASSWORD=
+      - RUST_PORT
     image: egeeio/androgee:latest
     restart: always
     network_mode: "host"
-    build:
-      context: .
-      args:
-        token: $TOKEN
