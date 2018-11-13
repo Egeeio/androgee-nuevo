@@ -1,4 +1,3 @@
-import { Client } from "discord.js";
 import Connect from "./Connect";
 import Listen from "./Listen";
 
