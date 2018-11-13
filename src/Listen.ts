@@ -5,7 +5,7 @@ import DiscordListeners from "./listeners/Discord";
 
 export default function Listen(discordClient: Client, rustClient: WebRcon) {
   try {
-    RustListeners(rustClient);
+    RustListeners(rustClient, discordClient.guilds.first());
     DiscordListeners(discordClient);
     console.info("Listening for events.");
   } catch (err) {
