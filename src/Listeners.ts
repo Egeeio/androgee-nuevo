@@ -1,7 +1,7 @@
 import { Client } from "discord.js";
 import WebRcon from "webrconjs";
 
-import SendChannelMessage from "./helpers/SendChannelMessage";
+import MemberAnnouncement from "./helpers/MemberAnnoucement";
 import MessageHandler from "./handlers/MessageHandlers";
 
 export default function Listeners(discordClient: Client) {
@@ -20,21 +20,9 @@ export default function Listeners(discordClient: Client) {
     if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
   });
   discordClient.on("guildMemberAdd", member => {
-    SendChannelMessage(
-      member.guild,
-      "general",
-      `** ${member.nickname} ** has joined the server! 👋`
-    ).catch(err => {
-      console.error(err);
-    });
+    MemberAnnouncement(member, "general", "joined");
   });
   discordClient.on("guildMemberRemove", member => {
-    SendChannelMessage(
-      member.guild,
-      "debug",
-      `** ${member.user.username} ** has left the server! 👋`
-    ).catch(err => {
-      console.error(err);
-    });
+    MemberAnnouncement(member, "debug", "left");
   });
 }
