@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import MemberAnnouncement from "../helpers/MemberAnnoucement";
+import MemberAnnounce from "../helpers/MemberAnnouce";
 import MessageHandler from "../handlers/MessageHandlers";
 
 export default function DiscordListeners(discordClient: Client) {
@@ -7,9 +7,9 @@ export default function DiscordListeners(discordClient: Client) {
     if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
   });
   discordClient.on("guildMemberAdd", member => {
-    MemberAnnouncement(member, "general", "joined");
+    MemberAnnounce(member, "general", "joined");
   });
   discordClient.on("guildMemberRemove", member => {
-    MemberAnnouncement(member, "debug", "left");
+    MemberAnnounce(member, "debug", "left");
   });
 }

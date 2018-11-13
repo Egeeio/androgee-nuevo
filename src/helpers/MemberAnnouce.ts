@@ -1,7 +1,7 @@
 import { GuildMember } from "discord.js";
 import SendChannelMessage from "./SendChannelMessage";
 
-export default function MemberAnnouncement(
+export default function MemberAnnounce(
   member: GuildMember,
   channelName: string,
   event: string
