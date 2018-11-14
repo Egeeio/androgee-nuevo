@@ -22,7 +22,6 @@
     "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "dependencies": {
-    "diff": "^3.5.0",
     "discord.js": "^11.3.2",
     "dockerode": "^2.5.6",
     "rcon-ts": "^1.2.3",
