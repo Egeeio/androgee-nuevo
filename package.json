@@ -24,6 +24,7 @@
   "dependencies": {
     "discord.js": "^11.3.2",
     "dockerode": "^2.5.6",
+    "rcon-ts": "^1.2.3",
     "typescript": "^3.0.1",
     "webrconjs": "^1.0.0"
   },

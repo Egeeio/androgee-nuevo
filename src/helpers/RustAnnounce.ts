@@ -14,7 +14,6 @@ export default function RustAnnounce(
     );
     const serverAnnoucement = playerName.pop().trim() + " the server";
     rustClient.run("say " + serverAnnoucement);
-
     SendChannelMessage(
       guild,
       "rust-server",
@@ -22,7 +21,5 @@ export default function RustAnnounce(
     ).catch(err => {
       console.error(`Error announcing: ${err}`);
     });
-  } else if (message.includes("Saving") === false) {
-    console.log(message + " - " + Date.now());
   }
 }

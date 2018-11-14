@@ -1,5 +1,6 @@
 import { Client } from "discord.js";
 import WebRcon from "webrconjs";
+import Rcon from "rcon-ts";
 
 export default class Connect {
   static async Discord(): Promise<Client> {
@@ -21,9 +22,19 @@ export default class Connect {
     }
     return client;
   }
-  static Rust(address: string, port: string, password: string) {
-    const rustClient = new WebRcon(address, port);
-    rustClient.connect(password);
+  static Rust() {
+    const rustClient = new WebRcon(process.env.HOST, process.env.RUST_PORT);
+    rustClient.connect(process.env.RUST_PASSWORD);
     return rustClient;
+  }
+  static async Minecraft() {
+    const rcon = new Rcon({
+      host: process.env.HOST,
+      port: parseInt(process.env.MINECRAFT_PORT),
+      password: process.env.MINECRAFT_PASSWORD,
+      timeout: 5000
+    });
+    rcon.connect();
+    return rcon;
   }
 }

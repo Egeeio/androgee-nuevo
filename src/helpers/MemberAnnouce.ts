@@ -10,7 +10,7 @@ export default function MemberAnnounce(
     SendChannelMessage(
       member.guild,
       channelName,
-      `** ${member.nickname} ** has ${event} the server! 👋`
+      `** ${member.displayName} ** has ${event} the server! 👋`
     )
       .then(resolve)
       .catch(err => {
