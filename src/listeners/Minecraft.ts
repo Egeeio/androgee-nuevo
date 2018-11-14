@@ -1,5 +1,4 @@
 import Connect from "../Connect";
-const JsDiff = require("diff");
 
 export default class MinecraftListener {
   playerList: Array<string>;
@@ -13,8 +12,6 @@ export default class MinecraftListener {
       .match(":(.*)")[1]
       .trim()
       .split(",");
-    let diff;
-    diff = JsDiff.diffWords(self.playerList, currentPlayers);
     self.playerList = currentPlayers;
   }
 }
