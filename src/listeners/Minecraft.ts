@@ -8,7 +8,7 @@ export default class MinecraftListener {
   constructor(Guild: Guild) {
     this.guild = Guild;
     this.playerList = [];
-    setInterval(this.ListPlayers, 10000, this);
+    setInterval(this.ListPlayers, 60000, this);
   }
   async ListPlayers(self) {
     let intersection = [];
