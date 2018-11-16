@@ -24,7 +24,7 @@ export default class MinecraftListener {
     intersection = currentPlayers.filter(
       player => !self.playerList.includes(player)
     );
-    if (intersection.length > 0 && intersection[0] !== "") {
+    if (intersection.length > 0 && intersection[0] !== " ") {
       intersection.forEach(player => {
         thePlayers = `${thePlayers} \`${player.trim()}\``;
       });
