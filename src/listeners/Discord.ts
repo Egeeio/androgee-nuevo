@@ -7,12 +7,23 @@ export default function DiscordListener(discordClient: Client) {
     if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
   });
   discordClient.on("guildMemberAdd", member => {
-    // MemberAnnounce(member, "debug", "joined");
-    console.log(`MESSAGE OBJ: ${member}`);
-    console.log(`DISPLAYNAME: ${member.displayName}`);
-    console.log(`USER OBJ: ${member.user}`);
+    MemberAnnounce(member, "debug", "joined")
+      .then(() => {
+        console.log(`MESSAGE OBJ: ${member.nickname}`);
+        console.log(`DISPLAYNAME: ${member.displayName}`);
+        console.log(`USER OBJ: ${member.user.username}`);
+      })
+      .catch(err => {
+        console.error(`guildMemberAdd failed: ${err}`);
+      });
   });
   discordClient.on("guildMemberRemove", member => {
-    MemberAnnounce(member, "debug", "left");
+    MemberAnnounce(member, "debug", "left")
+      .then(() => {
+        console.info(`member.displayColor left the server`);
+      })
+      .catch(err => {
+        console.error(`guildMemberRemove failed: ${err}`);
+      });
   });
 }

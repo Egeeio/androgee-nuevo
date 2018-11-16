@@ -14,5 +14,7 @@ export default async function MessageHandler(message: Message) {
       if (isAdmin == true)
         message.channel.send(await ContainerHandlers(message.content));
       break;
+    case "test":
+      break;
   }
 }

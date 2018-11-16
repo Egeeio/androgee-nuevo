@@ -9,7 +9,7 @@ export default async function Listen() {
   try {
     RustListener(rustClient, discordClient.guilds.first());
     DiscordListener(discordClient);
-    // new MinecraftListener();
+    new MinecraftListener(discordClient.guilds.first());
   } catch (err) {
     console.error(
       `Something went terribly wrong while setting up the Listeners: ${err}`

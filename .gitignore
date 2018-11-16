@@ -62,6 +62,8 @@ typings/
 
 # vscode
 launch.json
+.vscode/launch.json
+vscode/*
 
 # dist stuff
 dist/*
