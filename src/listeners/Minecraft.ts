@@ -29,7 +29,7 @@ export default class MinecraftListener {
         thePlayers = `${thePlayers} \`${player.trim()}\``;
       });
       thePlayers = `${thePlayers} joined the server`;
-      await SendChannelMessage(self.guild, "debug", thePlayers)
+      await SendChannelMessage(self.guild, "minecraft-server", thePlayers)
         .then(() => {
           console.info(thePlayers);
         })
