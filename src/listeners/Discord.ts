@@ -7,7 +7,7 @@ export default function DiscordListener(discordClient: Client) {
     if (msg.content.charAt(0) == process.env.PREFIX) MessageHandler(msg);
   });
   discordClient.on("guildMemberAdd", member => {
-    MemberAnnounce(member, "debug", "joined")
+    MemberAnnounce(member, "general", "joined")
       .then(() => {
         console.log(`MESSAGE OBJ: ${member.nickname}`);
         console.log(`DISPLAYNAME: ${member.displayName}`);
