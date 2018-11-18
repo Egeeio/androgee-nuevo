@@ -1,42 +1,20 @@
-import Connect from "../Connect";
+import Docker from "dockerode";
 import { Guild } from "discord.js";
-import SendChannelMessage from "../helpers/SendChannelMessage";
+import GetContainer from "../commands/GetContainer";
+import GenericGameAnnounce from "../helpers/GenericGameAnnounce";
 
-export default class MinecraftListener {
-  playerList: Array<string>;
-  guild: Guild;
-  constructor(Guild: Guild) {
-    this.guild = Guild;
-    this.playerList = [];
-    setInterval(this.ListPlayers, 60000, this);
-  }
-  async ListPlayers(self) {
-    let intersection = [];
-    let thePlayers = "";
-    const MinecraftClient = await Connect.Minecraft();
-    const playerList = await MinecraftClient.send("list");
-    const currentPlayers = playerList
-      .match(":(.*)")[1]
-      .split(",")
-      .sort();
-    if (JSON.stringify(self.playerList) === JSON.stringify(currentPlayers))
-      return;
-    intersection = currentPlayers.filter(
-      player => !self.playerList.includes(player)
-    );
-    if (intersection.length > 0 && intersection[0] !== " ") {
-      intersection.forEach(player => {
-        thePlayers = `${thePlayers} \`${player.trim()}\``;
-      });
-      thePlayers = `${thePlayers} joined the server`;
-      await SendChannelMessage(self.guild, "minecraft-server", thePlayers)
-        .then(() => {
-          console.info(thePlayers);
-        })
-        .catch(err => {
-          console.log(`The minecraft loop failed: ${err}`);
-        });
-    }
-    self.playerList = currentPlayers;
-  }
+export default async function MinecraftListener(
+  discordGuild: Guild,
+  engine: Docker
+) {
+  const container = await GetContainer(process.env.MINECRAFT_NAME, engine);
+  const unixTimeStamp = Math.floor(+new Date() / 1000 - 30);
+  const playerRegex = /(?<=\bUUID\sof\splayer\s)(\w+)/;
+  await GenericGameAnnounce(
+    container,
+    unixTimeStamp,
+    playerRegex,
+    "minecraft",
+    discordGuild
+  );
 }

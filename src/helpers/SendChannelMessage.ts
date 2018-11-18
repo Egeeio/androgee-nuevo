@@ -5,7 +5,9 @@ export default function SendChannelMessage(
   channelName: string,
   message: string
 ) {
-  const channel = guild.channels.find("name", channelName) as TextChannel;
+  const channel = guild.channels.find(
+    channel => channel.name === channelName
+  ) as TextChannel;
   return new Promise((resolve, reject) => {
     channel
       .send(message)
