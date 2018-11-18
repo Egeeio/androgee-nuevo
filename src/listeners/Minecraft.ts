@@ -15,24 +15,29 @@ export default class MinecraftListener {
     this.playerList = [];
     this.engine = new Docker({ host: process.env.HOST, port: 2376 });
     this.containerName = "gscminecraft_minecraft-server_1";
-    setInterval(this.test, 60000, this);
+    setInterval(this.test, 30000, this);
   }
   async test(self) {
     const container = await GetContainer(self.containerName, self.engine);
-    const ts = Math.floor(+new Date() / 1000 - 60);
-    self.containerLogs(container, ts);
+    const ts = Math.floor(+new Date() / 1000 - 30);
+    self.containerLogs(container, ts, self);
   }
 
-  containerLogs(container, ts) {
+  containerLogs(container, ts, self) {
     // create a single stream for stdin and stdout
     const logStream = new stream.PassThrough();
-    const myArray = [];
     logStream.on("data", function(chunk) {
       const blank = chunk.toString("utf8");
       const myregex = blank.match(/(?<=\bUUID\sof\splayer\s)(\w+)/);
       if (myregex !== null) {
-        console.log("We got a match!" + myregex[0]);
-        myArray.push(myregex);
+        const thePlayer = `\`${myregex[0]}\` joined the server`;
+        SendChannelMessage(self.guild, "debug", thePlayer)
+          .then(() => {
+            console.info(thePlayer);
+          })
+          .catch(err => {
+            console.log(`The minecraft loop failed: ${err}`);
+          });
       }
     });
 
@@ -57,35 +62,5 @@ export default class MinecraftListener {
         }, 2000);
       }
     );
-  }
-
-  async ListPlayers(self) {
-    let intersection = [];
-    let thePlayers = "";
-    const MinecraftClient = await Connect.Minecraft();
-    const playerList = await MinecraftClient.send("list");
-    const currentPlayers = playerList
-      .match(":(.*)")[1]
-      .split(",")
-      .sort();
-    if (JSON.stringify(self.playerList) === JSON.stringify(currentPlayers))
-      return;
-    intersection = currentPlayers.filter(
-      player => !self.playerList.includes(player)
-    );
-    if (intersection.length > 0 && intersection[0] !== " ") {
-      intersection.forEach(player => {
-        thePlayers = `${thePlayers} \`${player.trim()}\``;
-      });
-      thePlayers = `${thePlayers} joined the server`;
-      await SendChannelMessage(self.guild, "minecraft-server", thePlayers)
-        .then(() => {
-          console.info(thePlayers);
-        })
-        .catch(err => {
-          console.log(`The minecraft loop failed: ${err}`);
-        });
-    }
-    self.playerList = currentPlayers;
   }
 }
