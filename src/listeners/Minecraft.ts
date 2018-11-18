@@ -8,32 +8,32 @@ import SendChannelMessage from "../helpers/SendChannelMessage";
 export default class MinecraftListener {
   playerList: Array<string>;
   guild: Guild;
+  containerName: String;
+  engine: Docker;
   constructor(Guild: Guild) {
     this.guild = Guild;
     this.playerList = [];
-    const engine = new Docker({ host: process.env.HOST, port: 2376 });
-    this.test("gscminecraft_minecraft-server_1", engine);
-    // setInterval(this.ListPlayers, 60000, this);
+    this.engine = new Docker({ host: process.env.HOST, port: 2376 });
+    this.containerName = "gscminecraft_minecraft-server_1";
+    setInterval(this.test, 60000, this);
   }
-  async test(containerName: string, engine: Docker) {
-    const container = await GetContainer(containerName, engine);
-    const ts = Math.floor(+new Date() / 1000 - 6000);
-    this.containerLogs(container, ts);
-
-    // const logs = await container.logs({ since: ts, stdout: true });
-    // let blank = "" + logs;
-    // blank = blank.trim();
-    // console.log(blank);
+  async test(self) {
+    const container = await GetContainer(self.containerName, self.engine);
+    const ts = Math.floor(+new Date() / 1000 - 60);
+    self.containerLogs(container, ts);
   }
 
   containerLogs(container, ts) {
     // create a single stream for stdin and stdout
     const logStream = new stream.PassThrough();
-    let myArray = [];
+    const myArray = [];
     logStream.on("data", function(chunk) {
-      let blank = chunk.toString("utf8");
-      myArray.push(blank);
-      console.log(blank);
+      const blank = chunk.toString("utf8");
+      const myregex = blank.match(/(?<=\bUUID\sof\splayer\s)(\w+)/);
+      if (myregex !== null) {
+        console.log("We got a match!" + myregex[0]);
+        myArray.push(myregex);
+      }
     });
 
     container.logs(
