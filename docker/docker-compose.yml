@@ -6,7 +6,8 @@ services:
       - PREFIX=
       - HOST=
       - RUST_PASSWORD=
-      - RUST_PORT
+      - RUST_PORT=
+      - MINECRAFT_NAME=
     image: egeeio/androgee:latest
     restart: always
     network_mode: "host"
