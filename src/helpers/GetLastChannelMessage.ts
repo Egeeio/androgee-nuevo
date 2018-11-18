@@ -1,4 +1,4 @@
-import { TextChannel, Guild, GuildChannel } from "discord.js";
+import { TextChannel, Guild } from "discord.js";
 
 export default async function GetLastChannelMessage(
   guild: Guild,
