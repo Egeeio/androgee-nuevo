@@ -17,7 +17,7 @@ export default async function GenericGameAnnounce(
     const regexMatch = line.match(regex);
     if (regexMatch !== null) {
       const thePlayer = `**${regexMatch[0]}** joined the server`;
-      if (lastMsg !== thePlayer) {
+      if (lastMsg !== thePlayer && line.includes("joined")) {
         SendChannelMessage(discordGuild, channel, thePlayer)
           .then(() => {
             console.info(thePlayer);
