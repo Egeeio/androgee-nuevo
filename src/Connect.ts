@@ -1,23 +1,23 @@
-import { Client } from "discord.js";
-import WebRcon from "webrconjs";
-import Rcon from "rcon-ts";
+import { Client } from 'discord.js';
+import WebRcon from 'webrconjs';
+import Rcon from 'rcon-ts';
 
 export default class Connect {
   static async Discord(): Promise<Client> {
     const token = process.env.TOKEN;
     const client = new Client();
-    if (token !== "") {
+    if (token !== '') {
       await client
         .login(token)
         .then(() => {
-          console.info("Successfully logged into Discord.");
+          console.info('Successfully logged into Discord.');
         })
         .catch(err => {
           console.error(`Error logging in: ${err}`);
           process.exit(1);
         });
     } else {
-      console.error("Unable to find Discord TOKEN.");
+      console.error('Unable to find Discord TOKEN.');
       process.exit(1);
     }
     return client;
@@ -32,7 +32,7 @@ export default class Connect {
       host: process.env.HOST,
       port: parseInt(process.env.MINECRAFT_PORT),
       password: process.env.MINECRAFT_PASSWORD,
-      timeout: 5000
+      timeout: 5000,
     });
     rcon.connect();
     return rcon;
