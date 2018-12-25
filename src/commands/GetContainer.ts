@@ -1,8 +1,8 @@
-import Docker from "dockerode";
+import Docker from 'dockerode';
 
 export default async function GetContainer(
   containerName: string,
-  engine: Docker
+  engine: Docker,
 ) {
   const gameServers = await engine.listContainers({ all: true });
   const containers = new Map();

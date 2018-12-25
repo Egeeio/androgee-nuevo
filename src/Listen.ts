@@ -1,15 +1,15 @@
-import Docker from "dockerode";
-import Connect from "./Connect";
-import RustListener from "./listeners/Rust";
-import DiscordListener from "./listeners/Discord";
-import MinecraftListener from "./listeners/Minecraft";
-import SevenDaysListener from "./listeners/SevenDays";
+import Docker from 'dockerode';
+import Connect from './Connect';
+import RustListener from './listeners/Rust';
+import DiscordListener from './listeners/Discord';
+import MinecraftListener from './listeners/Minecraft';
+import SevenDaysListener from './listeners/SevenDays';
 
 export default async function Listen() {
   const engine = new Docker({ host: process.env.HOST, port: 2376 });
   const remoteEngine = new Docker({
-    host: process.env.SEVENDAYS_HOST,
-    port: 2376
+    host: process.env.REMOTE_HOST,
+    port: 2376,
   });
   const discordClient = await Connect.Discord();
   const rustClient = await Connect.Rust();
@@ -21,12 +21,12 @@ export default async function Listen() {
       SevenDaysListener,
       30000,
       discordClient.guilds.first(),
-      remoteEngine
+      remoteEngine,
     );
   } catch (err) {
     console.error(
-      `Something went terribly wrong while setting up the Listeners: ${err}`
+      `Something went terribly wrong while setting up the Listeners: ${err}`,
     );
   }
-  console.info("Listening for events.");
+  console.info('Listening for events.');
 }
