@@ -8,7 +8,7 @@ import SevenDaysListener from './listeners/SevenDays';
 export default async function Listen() {
   const engine = new Docker({ host: process.env.HOST, port: 2376 });
   const remoteEngine = new Docker({
-    host: process.env.SEVENDAYS_HOST,
+    host: process.env.REMOTE_HOST,
     port: 2376,
   });
   const discordClient = await Connect.Discord();
