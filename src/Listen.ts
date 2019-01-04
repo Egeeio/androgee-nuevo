@@ -6,10 +6,10 @@ import MinecraftListener from './listeners/Minecraft';
 import SevenDaysListener from './listeners/SevenDays';
 
 export default async function Listen() {
-  const engine = new Docker({ host: process.env.HOST, port: 2376 });
+  const engine = new Docker({ host: process.env.HOST, port: 2385 });
   const remoteEngine = new Docker({
     host: process.env.REMOTE_HOST,
-    port: 2376,
+    port: 2385,
   });
   const discordClient = await Connect.Discord();
   const rustClient = await Connect.Rust();
@@ -17,12 +17,12 @@ export default async function Listen() {
     RustListener(rustClient, discordClient.guilds.first());
     DiscordListener(discordClient);
     setInterval(MinecraftListener, 30000, discordClient.guilds.first(), engine);
-    setInterval(
-      SevenDaysListener,
-      30000,
-      discordClient.guilds.first(),
-      remoteEngine,
-    );
+    // setInterval(
+    //   SevenDaysListener,
+    //   30000,
+    //   discordClient.guilds.first(),
+    //   remoteEngine,
+    // );
   } catch (err) {
     console.error(
       `Something went terribly wrong while setting up the Listeners: ${err}`,
